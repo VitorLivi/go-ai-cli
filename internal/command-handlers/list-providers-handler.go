@@ -1,6 +1,8 @@
 package commandhandlers
 
 import (
+	"fmt"
+
 	"github.com/vitorlivi/go-ai-cli/internal/data"
 )
 
@@ -11,5 +13,15 @@ func NewListProvidersHandler() *ListProvidersHandler {
 }
 
 func (p *ListProvidersHandler) Handle() (any, error) {
-	return data.Providers, nil
+	var formatted string = "Providers: \n"
+
+	for _, provider := range data.Providers {
+		formatted += fmt.Sprintf("- %s\n", provider.Id)
+	}
+
+	formatted += fmt.Sprintf("\nTotal Providers: %d\n", len(data.Providers))
+
+	fmt.Println(formatted)
+
+	return &formatted, nil
 }

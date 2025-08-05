@@ -13,7 +13,7 @@ type ParsedPrompt struct {
 	ShowVersion   bool
 	Timeout       int
 	MaxTokens     int
-	Temperature   float64
+	Temperature   float32
 }
 
 type HasParsedPrompt interface {

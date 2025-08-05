@@ -3,7 +3,6 @@ package filters
 import (
 	"errors"
 	"flag"
-	"fmt"
 
 	"github.com/vitorlivi/go-ai-cli/internal/types"
 )
@@ -27,12 +26,10 @@ func (p *ParsePromptFilter) Process(context any, input ...any) (any, error) {
 		helpShort     = flag.Bool("h", false, "Show help (short)")
 		showVersion   = flag.Bool("version", false, "Show version")
 		versionShort  = flag.Bool("v", false, "Show version (short)")
-		timeout       = flag.Int("timeout", 0, "Timeout in seconds")
-		maxTokens     = flag.Int("max-tokens", 0, "Maximum number of tokens")
+		timeout       = flag.Int("timeout", 10, "Timeout in seconds")
+		maxTokens     = flag.Int("max-tokens", 4000, "Maximum number of tokens")
 		temperature   = flag.Float64("temperature", 1.0, "Temperature for text generation")
 	)
-
-	fmt.Print("AFTER PARSE PROMPT FILTER")
 
 	flag.Parse()
 
@@ -60,7 +57,7 @@ func (p *ParsePromptFilter) Process(context any, input ...any) (any, error) {
 				ShowVersion:   effectiveShowVersion,
 				Timeout:       *timeout,
 				MaxTokens:     *maxTokens,
-				Temperature:   *temperature,
+				Temperature:   float32(*temperature),
 			})
 
 		return ctx.GetParsedPrompt(), nil

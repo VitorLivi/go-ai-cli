@@ -31,7 +31,6 @@ func (c *AuxiliarCommandRouter) Route(context any, input ...any) (any, error) {
 	switch ctx := context.(type) {
 	case interface {
 		types.HasParsedPrompt
-		types.HasAIClientConfig
 		types.HasCommandHandler
 	}:
 		parsedPrompt := ctx.GetParsedPrompt()
@@ -56,7 +55,7 @@ func (c *AuxiliarCommandRouter) Route(context any, input ...any) (any, error) {
 			return c.showVersionHandler, nil
 		}
 	default:
-		return nil, errors.New("context does not implement required types")
+		return nil, errors.New("auxiliar command router context does not implement required types")
 	}
 
 	return nil, nil

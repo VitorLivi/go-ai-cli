@@ -13,7 +13,8 @@ func NewShowVersionHandler() *ShowVersionHandler {
 }
 
 func (p *ShowVersionHandler) Handle() (any, error) {
-	fmt.Printf("AI CLI Tool version %s\n", data.VERSION)
+	message := fmt.Sprintf("AI CLI Tool version %s", data.VERSION)
+	fmt.Println(message)
 
-	return nil, nil
+	return &message, nil
 }

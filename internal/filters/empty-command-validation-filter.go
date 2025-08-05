@@ -22,6 +22,7 @@ func (c *EmptyCommandValidationFilter) Process(context any, input ...any) (any, 
 			!parsedPrompt.ShowHelp &&
 			!parsedPrompt.ShowVersion {
 			commandhandlers.NewShowHelpHandler().Handle()
+
 			return nil, errors.New("empty command")
 		}
 	}

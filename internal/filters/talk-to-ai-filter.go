@@ -17,9 +17,12 @@ func (c *TalkToAIFilter) Process(context any, input ...any) (any, error) {
 	case interface {
 		types.HasAIClient
 		types.HasAIClientConfig
+		types.HasAIResponse
 	}:
 		res := ctx.GetAIClient().Chat(ctx.GetAIClientConfig().Prompt)
-		return res, nil
+		ctx.SetAIResponse(res)
+
+		return &res, nil
 	default:
 		return nil, errors.New("talk to ai filter context does not implement required types")
 	}

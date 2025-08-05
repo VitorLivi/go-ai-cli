@@ -28,10 +28,10 @@ func (p *AiClientFilter) Process(context any, input ...any) (any, error) {
 				if providerModel.Id == config.Model {
 					switch provider.Id {
 					case "gpt":
-						ctx.SetAIClient(aiclientadapter.NewGPTClient(config.Model))
+						ctx.SetAIClient(aiclientadapter.NewGPTClient(config))
 						return ctx.GetAIClient(), nil
 					case "gemini":
-						ctx.SetAIClient(aiclientadapter.NewGeminiClient(config.Model))
+						ctx.SetAIClient(aiclientadapter.NewGeminiClient(config))
 						return ctx.GetAIClient(), nil
 					}
 				}
@@ -41,5 +41,5 @@ func (p *AiClientFilter) Process(context any, input ...any) (any, error) {
 		return nil, errors.New("ai client filter context does not implement required types")
 	}
 
-	return nil, errors.New("provider not found")
+	return nil, errors.New("model not found")
 }

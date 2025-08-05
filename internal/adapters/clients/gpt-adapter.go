@@ -8,14 +8,15 @@ import (
 
 	"github.com/sashabaranov/go-openai"
 	"github.com/vitorlivi/go-ai-cli/internal/data"
+	"github.com/vitorlivi/go-ai-cli/internal/types"
 )
 
 type GPTClient struct {
 	client *openai.Client
-	model  string
+	config types.AIClientConfig
 }
 
-func NewGPTClient(model string) *GPTClient {
+func NewGPTClient(config types.AIClientConfig) *GPTClient {
 	apiKey := os.Getenv("OPENAI_API_KEY")
 	if apiKey == "" {
 		panic("OPENAI_API_KEY environment variable is required")
@@ -23,13 +24,13 @@ func NewGPTClient(model string) *GPTClient {
 
 	client := openai.NewClient(apiKey)
 
-	if model == "" {
-		model = "gpt-3.5-turbo"
+	if config.Model == "" {
+		config.Model = "gpt-3.5-turbo"
 	}
 
 	return &GPTClient{
 		client: client,
-		model:  model,
+		config: config,
 	}
 }
 
@@ -38,15 +39,15 @@ func (g *GPTClient) Chat(prompt string) string {
 	defer cancel()
 
 	req := openai.ChatCompletionRequest{
-		Model: g.model,
+		Model: g.config.Model,
 		Messages: []openai.ChatCompletionMessage{
 			{
 				Role:    openai.ChatMessageRoleUser,
 				Content: prompt,
 			},
 		},
-		MaxTokens:   1000,
-		Temperature: 0.7,
+		MaxTokens:   g.config.MaxTokens,
+		Temperature: g.config.Temperature,
 	}
 
 	resp, err := g.client.CreateChatCompletion(ctx, req)
@@ -74,8 +75,7 @@ func (g *GPTClient) IsHealthy(ctx context.Context) error {
 		Model: "gpt-3.5-turbo",
 		Messages: []openai.ChatCompletionMessage{
 			{
-				Role:    openai.ChatMessageRoleUser,
-				Content: "Hello",
+				Role: openai.ChatMessageRoleUser,
 			},
 		},
 		MaxTokens: 1,

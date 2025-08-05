@@ -5,7 +5,6 @@ import (
 	"github.com/vitorlivi/go-ai-cli/internal/common"
 	"github.com/vitorlivi/go-ai-cli/internal/filters"
 	"github.com/vitorlivi/go-ai-cli/internal/routers"
-	"github.com/vitorlivi/go-ai-cli/internal/types"
 )
 
 type MainPipeline struct{}
@@ -14,8 +13,8 @@ func NewMainPipeline() *MainPipeline {
 	return &MainPipeline{}
 }
 
-func (f *MainPipeline) Start(context any) (*types.InteractionType, error) {
-	var pipeline = common.NewPipeline[types.InteractionType](context)
+func (f *MainPipeline) Start(context any) (any, error) {
+	var pipeline = common.NewPipeline[string](context)
 
 	pipelineRouter := routers.NewPipelineRouter(
 		NewTalkToAIPipeline(),

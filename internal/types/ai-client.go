@@ -13,7 +13,7 @@ type IAIClient interface {
 type AIClientConfig struct {
 	Prompt      string
 	Model       string
-	Temperature float64
+	Temperature float32
 	Timeout     int
 	MaxTokens   int
 }
@@ -26,4 +26,9 @@ type HasAIClient interface {
 type HasAIClientConfig interface {
 	SetAIClientConfig(AIClientConfig)
 	GetAIClientConfig() AIClientConfig
+}
+
+type HasAIResponse interface {
+	SetAIResponse(string)
+	GetAIResponse() string
 }

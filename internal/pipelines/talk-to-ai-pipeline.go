@@ -3,7 +3,6 @@ package pipelines
 import (
 	"github.com/vitorlivi/go-ai-cli/internal/common"
 	"github.com/vitorlivi/go-ai-cli/internal/filters"
-	"github.com/vitorlivi/go-ai-cli/internal/types"
 )
 
 type TalkToAIPipeline struct{}
@@ -13,12 +12,13 @@ func NewTalkToAIPipeline() *TalkToAIPipeline {
 }
 
 func (f *TalkToAIPipeline) Start(context any) (any, error) {
-	var pipeline = common.NewPipeline[types.InteractionType](context)
+	var pipeline = common.NewPipeline[string](context)
 
 	pipeline.AddFilter(filters.NewEmptyCommandValidationFilter())
 	pipeline.AddFilter(filters.NewLoadAIClientConfigFilter())
 	pipeline.AddFilter(filters.NewAiClientFilter())
 	pipeline.AddFilter(filters.NewTalkToAIFilter())
+	pipeline.AddFilter(filters.NewAIResponseFilter())
 
 	return pipeline.Start()
 }

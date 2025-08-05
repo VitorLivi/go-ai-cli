@@ -8,15 +8,16 @@ import (
 
 	"github.com/google/generative-ai-go/genai"
 	"github.com/vitorlivi/go-ai-cli/internal/data"
+	"github.com/vitorlivi/go-ai-cli/internal/types"
 	"google.golang.org/api/option"
 )
 
 type GeminiClientAdapter struct {
 	client *genai.Client
-	model  string
+	config types.AIClientConfig
 }
 
-func NewGeminiClient(model string) *GeminiClientAdapter {
+func NewGeminiClient(config types.AIClientConfig) *GeminiClientAdapter {
 	apiKey := os.Getenv("GEMINI_API_KEY")
 	if apiKey == "" {
 		panic("GEMINI_API_KEY environment variable is required")
@@ -28,13 +29,13 @@ func NewGeminiClient(model string) *GeminiClientAdapter {
 		panic(fmt.Sprintf("Failed to create Gemini client: %v", err))
 	}
 
-	if model == "" {
-		model = "gemini-pro"
+	if config.Model == "" {
+		config.Model = "gemini-pro"
 	}
 
 	return &GeminiClientAdapter{
 		client: client,
-		model:  model,
+		config: config,
 	}
 }
 
@@ -42,10 +43,10 @@ func (g *GeminiClientAdapter) Chat(prompt string) string {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	model := g.client.GenerativeModel(g.model)
+	model := g.client.GenerativeModel(g.config.Model)
 
-	model.SetTemperature(0.7)
-	model.SetMaxOutputTokens(1000)
+	model.SetTemperature(g.config.Temperature)
+	model.SetMaxOutputTokens(int32(g.config.MaxTokens))
 
 	resp, err := model.GenerateContent(ctx, genai.Text(prompt))
 	if err != nil {

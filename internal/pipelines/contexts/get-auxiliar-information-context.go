@@ -3,7 +3,9 @@ package pipelinecontext
 import "github.com/vitorlivi/go-ai-cli/internal/types"
 
 type GetAuxiliarInformationPipelineContext struct {
-	ParsedPrompt types.ParsedPrompt
+	ParsedPrompt   types.ParsedPrompt
+	AIClientConfig types.AIClientConfig
+	CommandHandler types.ICommandHandler[any]
 }
 
 func (c *GetAuxiliarInformationPipelineContext) SetParsedPrompt(parsedPrompt types.ParsedPrompt) {
@@ -14,6 +16,14 @@ func (c *GetAuxiliarInformationPipelineContext) GetParsedPrompt() types.ParsedPr
 	return c.ParsedPrompt
 }
 
-func NewGetAuxiliarInformationPipelineContext() GetAuxiliarInformationPipelineContext {
-	return GetAuxiliarInformationPipelineContext{}
+func (c *GetAuxiliarInformationPipelineContext) SetCommandHandler(commandHandler types.ICommandHandler[any]) {
+	c.CommandHandler = commandHandler
+}
+
+func (c *GetAuxiliarInformationPipelineContext) GetCommandHandler() types.ICommandHandler[any] {
+	return c.CommandHandler
+}
+
+func NewGetAuxiliarInformationPipelineContext() *GetAuxiliarInformationPipelineContext {
+	return &GetAuxiliarInformationPipelineContext{}
 }

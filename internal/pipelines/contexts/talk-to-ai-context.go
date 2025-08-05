@@ -9,6 +9,7 @@ type TalkToAIPipelineContext struct {
 	AiClientConfig  types.AIClientConfig
 	InteractionType types.InteractionType
 	AIClient        types.IAIClient
+	AIResponse      string
 }
 
 func NewTalkToAIPipelineContext() *TalkToAIPipelineContext {
@@ -45,4 +46,12 @@ func (c *TalkToAIPipelineContext) SetInteractionType(interactionType types.Inter
 
 func (c *TalkToAIPipelineContext) GetInteractionType() types.InteractionType {
 	return c.InteractionType
+}
+
+func (c *TalkToAIPipelineContext) SetAIResponse(res string) {
+	c.AIResponse = res
+}
+
+func (c *TalkToAIPipelineContext) GetAIResponse() string {
+	return c.AIResponse
 }

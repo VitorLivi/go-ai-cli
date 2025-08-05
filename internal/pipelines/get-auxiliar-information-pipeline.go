@@ -15,7 +15,7 @@ func NewGetAuxiliarInformationPipeline() *GetAuxiliarInformationPipeline {
 }
 
 func (f *GetAuxiliarInformationPipeline) Start(context any) (any, error) {
-	var pipeline = common.NewPipeline[any](context)
+	var pipeline = common.NewPipeline[string](context)
 
 	auxiliarCommandRouter := routers.NewAuxiliarCommandRouter(
 		commandhandlers.NewListModelsHandler(),

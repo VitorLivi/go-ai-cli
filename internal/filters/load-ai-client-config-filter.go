@@ -21,7 +21,6 @@ func (p *LoadAIClientConfigFilter) Process(context any, input ...any) (any, erro
 		types.HasInteractionType
 	}:
 		parsed := ctx.GetParsedPrompt()
-
 		ctx.SetAIClientConfig(types.AIClientConfig{
 			Model:       parsed.Model,
 			Prompt:      parsed.Prompt,
